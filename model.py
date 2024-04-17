@@ -79,7 +79,7 @@ class getDataset(Dataset):
 
 
 
-DATASET_PATH = "../datasets/birthCertificates/"
+DATASET_PATH = "../datasets/Bank_Churn/"
 dataset = getDataset(DATASET_PATH, "Churn_Modelling.csv")
 
 
