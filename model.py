@@ -8,21 +8,18 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
 
 import torch.nn as nn
-import torch.nn.functional as F
-
-
 
 if torch.cuda.is_available():
     device = torch.device('cuda')
     print("using...", device)
 elif torch.backends.mps.is_available():
-    device = torch.device('mps')
+    device = torch.device('mps') #my macbook pro :) 
     print("using...", device)
 else:
     device = torch.device("cpu")
     print("using...", device)
 
-
+#main objective: create your own class to manage DataFrame
 class getDataset(Dataset):
     def __init__(self, root_dir, csv_file, delimiter=','):
         df = pd.read_csv(root_dir+csv_file, delimiter=delimiter)
@@ -48,11 +45,9 @@ class getDataset(Dataset):
         return self.data 
     
     def get_x(self):
-        #x = self.data.drop(self.data.columns[-1], axis=1)
         return self.x 
 
     def get_y(self):
-        #y = self.data[self.data.columns[-1]]
         return self.y
 
     def getTransform(self):
@@ -76,12 +71,9 @@ class getDataset(Dataset):
 
         return  tensors_X_train, tensors_y_train, tensors_X_test, tensors_y_test 
 
-
-
-
+#usage examples
 DATASET_PATH = "../datasets/Bank_Churn/"
 dataset = getDataset(DATASET_PATH, "Churn_Modelling.csv")
-
 
 #a, b = dataset[3]
 #print(a)
@@ -91,8 +83,6 @@ dataset = getDataset(DATASET_PATH, "Churn_Modelling.csv")
 
 #print("data.get_x:", dataset.get_x())
 #print("data.get_y:", dataset.get_y())
-
-
 
 tensors_X_train, tensors_y_train, tensors_X_test, tensors_y_test = dataset.getTransform()
 print("tensors_X_train.shape:", tensors_X_train.shape)
@@ -118,9 +108,6 @@ class Net(nn.Module):
         x = torch.sigmoid(input = self.linear2(x))
         x = torch.sigmoid(input = self.linear3(x))
         return x
-
-
-
 
 learning_rate = 0.001
 #n_input = X_train.shape[1]
